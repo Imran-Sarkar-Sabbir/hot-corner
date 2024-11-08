@@ -1,5 +1,5 @@
 #[derive(Debug)]
-pub enum CornersResult {
+pub enum CornerResult {
     TopLeft,
     TopRight,
     BottomLeft,
@@ -22,17 +22,17 @@ pub struct Corners {
 }
 
 impl Corners {
-    pub fn check_match(&self, position: &Position) -> CornersResult {
+    pub fn check_match(&self, position: &Position) -> CornerResult {
         if self.top_left.x == position.x && self.top_left.y == position.y {
-            return CornersResult::TopLeft;
+            return CornerResult::TopLeft;
         } else if self.top_right.x == position.x && self.top_right.y == position.y {
-            return CornersResult::TopRight;
+            return CornerResult::TopRight;
         } else if self.bottom_left.x == position.x && self.bottom_left.y == position.y {
-            return CornersResult::BottomLeft;
+            return CornerResult::BottomLeft;
         } else if self.bottom_right.x == position.x && self.bottom_right.y == position.y {
-            return CornersResult::BottomRight;
+            return CornerResult::BottomRight;
         }
 
-        CornersResult::None
+        CornerResult::None
     }
 }

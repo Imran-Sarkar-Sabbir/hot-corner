@@ -3,7 +3,7 @@ use crate::{
         handle_bottom_left_action, handle_bottom_right_action, handle_top_left_action,
         handle_top_right_action,
     },
-    utils::{Corners, CornersResult, Position},
+    utils::{CornerResult, Corners, Position},
 };
 use rdev::{listen, Event, EventType};
 
@@ -29,16 +29,16 @@ fn handle_mouse_event(position: &Position, corners: &Corners) {
 
     if !unsafe { IS_ACTIVE } {
         match result {
-            CornersResult::TopLeft => handle_top_left_action(),
-            CornersResult::TopRight => handle_top_right_action(),
-            CornersResult::BottomLeft => handle_bottom_left_action(),
-            CornersResult::BottomRight => handle_bottom_right_action(),
-            CornersResult::None => {}
+            CornerResult::TopLeft => handle_top_left_action(),
+            CornerResult::TopRight => handle_top_right_action(),
+            CornerResult::BottomLeft => handle_bottom_left_action(),
+            CornerResult::BottomRight => handle_bottom_right_action(),
+            CornerResult::None => {}
         }
     }
 
     match result {
-        CornersResult::None => unsafe {
+        CornerResult::None => unsafe {
             IS_ACTIVE = false;
         },
         _ => unsafe {
