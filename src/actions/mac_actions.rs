@@ -31,7 +31,6 @@ impl CornerAction for MacCornerAction {
     }
 
     fn go_right(&self) {
-        // AppleScript command to switch to the left workspace with Control + Left Arrow
         let script = r#"
         tell application "System Events"
             key code 124 using {control down}
@@ -55,7 +54,6 @@ impl CornerAction for MacCornerAction {
     }
 
     fn open_window_tray(&self) {
-        // AppleScript command to switch to the left workspace with Control + Left Arrow
         let script = r#"
         tell application "System Events"
             key code 126 using {control down}
