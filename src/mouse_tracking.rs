@@ -13,7 +13,6 @@ use rdev::{listen, Event, EventType};
 pub fn start_tracking(corners: Arc<Mutex<Corners>>, channel_recv: Arc<Mutex<mpsc::Receiver<()>>>) {
     let callback = move |event: Event| {
         if let Ok(_sig) = channel_recv.lock().unwrap().try_recv() {
-            println!("got signal");
             let new_positions = calculate_display::calculated_display_corners();
             let mut corners_value = corners.lock().unwrap();
             *corners_value = new_positions;

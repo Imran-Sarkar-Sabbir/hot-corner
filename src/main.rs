@@ -1,12 +1,12 @@
-use utils::check_change_display_status;
-
 mod actions;
 mod calculate_display;
 mod mouse_tracking;
 mod utils;
+
 use std::sync::{mpsc, Arc, Mutex};
 use std::thread;
 use std::time::Duration;
+use utils::check_change_display_status;
 
 fn main() {
     let (channel_send, rx) = mpsc::channel::<()>();

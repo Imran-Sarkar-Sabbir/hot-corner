@@ -14,20 +14,25 @@ use windows_actions::WindowsCornerAction;
 #[cfg(target_os = "linux")]
 use linux_actions::LinuxCornerAction;
 
-pub fn os_specific_corner_action() -> Box<dyn CornerAction> {
-    #[cfg(target_os = "macos")]
-    {
-        Box::new(MacCornerAction)
-    }
+static mut ACTIONS: Option<Box<dyn CornerAction>> = None;
+pub fn os_specific_corner_action() -> &'static Box<dyn CornerAction> {
+    unsafe {
+        ACTIONS.get_or_insert_with(|| {
+            #[cfg(target_os = "macos")]
+            {
+                Box::new(MacCornerAction)
+            }
 
-    #[cfg(target_os = "windows")]
-    {
-        Box::new(WindowsCornerAction)
-    }
+            #[cfg(target_os = "windows")]
+            {
+                Box::new(WindowsCornerAction)
+            }
 
-    #[cfg(target_os = "linux")]
-    {
-        Box::new(LinuxCornerAction)
+            #[cfg(target_os = "linux")]
+            {
+                Box::new(LinuxCornerAction)
+            }
+        })
     }
 }
 

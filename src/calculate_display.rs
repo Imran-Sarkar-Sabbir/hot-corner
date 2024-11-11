@@ -2,7 +2,6 @@ use crate::utils::{Corners, Position};
 use display_info::DisplayInfo;
 
 pub fn calculated_display_corners() -> Corners {
-    println!("calculation");
     let display_infos = DisplayInfo::all().unwrap();
     let mut top_left = Position { x: 0, y: 0 };
     let mut top_right = Position { x: 0, y: 0 };

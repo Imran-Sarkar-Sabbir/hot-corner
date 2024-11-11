@@ -1,6 +1,5 @@
-use std::process::Command;
-
 use super::actions::CornerAction;
+use std::process::Command;
 
 #[cfg(target_os = "macos")]
 pub struct MacCornerAction;
