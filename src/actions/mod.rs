@@ -1,4 +1,5 @@
 mod actions;
+mod linux_actions;
 mod mac_actions;
 mod windows_actions;
 
@@ -10,6 +11,9 @@ use mac_actions::MacCornerAction;
 #[cfg(target_os = "windows")]
 use windows_actions::WindowsCornerAction;
 
+#[cfg(target_os = "linux")]
+use linux_actions::LinuxCornerAction;
+
 pub fn os_specific_corner_action() -> Box<dyn CornerAction> {
     #[cfg(target_os = "macos")]
     {
@@ -19,6 +23,11 @@ pub fn os_specific_corner_action() -> Box<dyn CornerAction> {
     #[cfg(target_os = "windows")]
     {
         Box::new(WindowsCornerAction)
+    }
+
+    #[cfg(target_os = "linux")]
+    {
+        Box::new(LinuxCornerAction)
     }
 }
 
