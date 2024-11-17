@@ -38,14 +38,3 @@ impl Corners {
         CornerResult::None
     }
 }
-
-pub fn check_change_display_status(current_display_status: &mut u32) -> bool {
-    let displays = DisplayInfo::all().unwrap();
-
-    if displays.len() as u32 != *current_display_status {
-        *current_display_status = displays.len() as u32;
-        return true;
-    }
-
-    return false;
-}

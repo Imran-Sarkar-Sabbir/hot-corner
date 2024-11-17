@@ -6,26 +6,17 @@ mod utils;
 use std::sync::{mpsc, Arc, Mutex};
 use std::thread;
 use std::time::Duration;
-use utils::check_change_display_status;
 
 fn main() {
     let (channel_send, rx) = mpsc::channel::<()>();
     let channel_recv = Arc::new(Mutex::new(rx));
-    let mut current_display_count = 0;
-    let mut is_running = false;
     let cloned_receiver = Arc::clone(&channel_recv);
 
     start(cloned_receiver);
 
     loop {
-        if check_change_display_status(&mut current_display_count) {
-            if is_running {
-                channel_send.send(()).unwrap();
-                thread::sleep(Duration::from_secs(10));
-            }
-            is_running = true;
-        }
-        thread::sleep(Duration::from_secs(30));
+        thread::sleep(Duration::from_secs(50));
+        channel_send.send(()).unwrap();
     }
 }
 

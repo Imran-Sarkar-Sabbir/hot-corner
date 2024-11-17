@@ -1,3 +1,4 @@
+#[cfg(target_os = "macos")]
 use super::actions::CornerAction;
 
 #[cfg(target_os = "windows")]

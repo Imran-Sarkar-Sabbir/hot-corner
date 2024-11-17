@@ -1,4 +1,7 @@
+#[cfg(target_os = "macos")]
 use super::actions::CornerAction;
+
+#[cfg(target_os = "macos")]
 use std::process::Command;
 
 #[cfg(target_os = "macos")]
