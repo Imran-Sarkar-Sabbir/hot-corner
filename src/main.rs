@@ -15,7 +15,7 @@ fn main() {
     start(cloned_receiver);
 
     loop {
-        thread::sleep(Duration::from_secs(50));
+        thread::sleep(Duration::from_secs(40));
         channel_send.send(()).unwrap();
     }
 }

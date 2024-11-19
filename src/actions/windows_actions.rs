@@ -1,3 +1,5 @@
+use rdev::{simulate, EventType, Key};
+
 #[cfg(target_os = "macos")]
 use super::actions::CornerAction;
 
@@ -7,17 +9,30 @@ pub struct WindowsCornerAction;
 #[cfg(target_os = "windows")]
 impl CornerAction for WindowsCornerAction {
     fn go_left(&self) {
-        println!("windows: Moving left.");
-        // windows-specific logic here
+        simulate(&EventType::KeyPress(Key::ControlLeft)).unwrap();
+        simulate(&EventType::KeyPress(Key::MetaLeft)).unwrap();
+        simulate(&EventType::KeyPress(Key::LeftArrow)).unwrap();
+
+        simulate(&EventType::KeyRelease(Key::LeftArrow)).unwrap();
+        simulate(&EventType::KeyRelease(Key::MetaLeft)).unwrap();
+        simulate(&EventType::KeyRelease(Key::ControlLeft)).unwrap();
     }
 
     fn go_right(&self) {
-        println!("windows: Moving right.");
-        // windows-specific logic here
+        simulate(&EventType::KeyPress(Key::ControlLeft)).unwrap();
+        simulate(&EventType::KeyPress(Key::MetaLeft)).unwrap();
+        simulate(&EventType::KeyPress(Key::RightArrow)).unwrap();
+
+        simulate(&EventType::KeyRelease(Key::RightArrow)).unwrap();
+        simulate(&EventType::KeyRelease(Key::MetaLeft)).unwrap();
+        simulate(&EventType::KeyRelease(Key::ControlLeft)).unwrap();
     }
 
     fn open_window_tray(&self) {
-        println!("windows: Opening window tray.");
-        // windows-specific logic here
+        simulate(&EventType::KeyPress(Key::MetaLeft)).unwrap();
+        simulate(&EventType::KeyPress(Key::Tab)).unwrap();
+
+        simulate(&EventType::KeyRelease(Key::Tab)).unwrap();
+        simulate(&EventType::KeyRelease(Key::MetaLeft)).unwrap();
     }
 }
