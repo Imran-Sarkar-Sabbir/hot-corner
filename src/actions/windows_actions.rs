@@ -1,6 +1,6 @@
 use rdev::{simulate, EventType, Key};
 
-#[cfg(target_os = "macos")]
+#[cfg(target_os = "windows")]
 use super::actions::CornerAction;
 
 #[cfg(target_os = "windows")]
