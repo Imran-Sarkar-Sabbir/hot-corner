@@ -1,81 +1,31 @@
 #[cfg(target_os = "macos")]
 use super::actions::CornerAction;
 
-#[cfg(target_os = "macos")]
-use std::process::Command;
+use enigo::Direction::{Click, Press, Release};
+use enigo::{Enigo, Key, Keyboard};
 
 #[cfg(target_os = "macos")]
-pub struct MacCornerAction;
+pub struct MacCornerAction {
+    pub enigo: Enigo
+}
 
 #[cfg(target_os = "macos")]
 impl CornerAction for MacCornerAction {
-    fn go_left(&self) {
-        // AppleScript command to switch to the left workspace with Control + Left Arrow
-        let script = r#"
-        tell application "System Events"
-            key code 123 using {control down}
-        end tell
-    "#;
-
-        // Execute the AppleScript command
-        let output = Command::new("osascript")
-            .arg("-e")
-            .arg(script)
-            .output()
-            .expect("Failed to execute AppleScript");
-
-        if output.status.success() {
-        } else {
-            eprintln!(
-                "Error switching workspace: {}",
-                String::from_utf8_lossy(&output.stderr)
-            );
-        }
+    fn go_left(&mut self) {
+        let _ = self.enigo.key(Key::Control, Press);
+        let _ = self.enigo.key(Key::LeftArrow, Click);
+        let _ = self.enigo.key(Key::Control, Release);
     }
 
-    fn go_right(&self) {
-        let script = r#"
-        tell application "System Events"
-            key code 124 using {control down}
-        end tell
-    "#;
-
-        // Execute the AppleScript command
-        let output = Command::new("osascript")
-            .arg("-e")
-            .arg(script)
-            .output()
-            .expect("Failed to execute AppleScript");
-
-        if output.status.success() {
-        } else {
-            eprintln!(
-                "Error switching workspace: {}",
-                String::from_utf8_lossy(&output.stderr)
-            );
-        }
+    fn go_right(&mut self) {
+        let _ = self.enigo.key(Key::Control, Press);
+        let _ = self.enigo.key(Key::RightArrow, Click);
+        let _ = self.enigo.key(Key::Control, Release);
     }
 
-    fn open_window_tray(&self) {
-        let script = r#"
-        tell application "System Events"
-            key code 126 using {control down}
-        end tell
-    "#;
-
-        // Execute the AppleScript command
-        let output = Command::new("osascript")
-            .arg("-e")
-            .arg(script)
-            .output()
-            .expect("Failed to execute AppleScript");
-
-        if output.status.success() {
-        } else {
-            eprintln!(
-                "Error switching workspace: {}",
-                String::from_utf8_lossy(&output.stderr)
-            );
-        }
+    fn open_window_tray(&mut self) {
+        let _ = self.enigo.key(Key::Control, Press);
+        let _ = self.enigo.key(Key::UpArrow, Click);
+        let _ = self.enigo.key(Key::Control, Release);
     }
 }

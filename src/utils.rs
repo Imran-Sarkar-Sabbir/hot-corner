@@ -1,4 +1,3 @@
-use display_info::DisplayInfo;
 
 #[derive(Debug)]
 pub enum CornerResult {
@@ -36,5 +35,12 @@ impl Corners {
         }
 
         CornerResult::None
+    }
+
+    pub fn re_assign(&mut self, new_value: Self) {
+        self.top_left = new_value.top_left;
+        self.top_right = new_value.top_right;
+        self.bottom_left = new_value.bottom_left;
+        self.bottom_right = new_value.bottom_right;
     }
 }

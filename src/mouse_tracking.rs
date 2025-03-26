@@ -1,5 +1,3 @@
-use std::sync::{mpsc, Arc, Mutex};
-
 use crate::{
     actions::{
         handle_bottom_left_action, handle_bottom_right_action, handle_top_left_action,
@@ -9,21 +7,18 @@ use crate::{
     utils::{CornerResult, Corners, Position},
 };
 use rdev::{listen, Event, EventType};
+use std::time::{Duration, Instant};
 
-pub fn start_tracking(corners: Arc<Mutex<Corners>>, channel_recv: Arc<Mutex<mpsc::Receiver<()>>>) {
+pub fn start_tracking() {
+    let mut corners = calculate_display::calculated_display_corners();
     let callback = move |event: Event| {
-        if let Ok(_sig) = channel_recv.lock().unwrap().try_recv() {
-            let new_positions = calculate_display::calculated_display_corners();
-            let mut corners_value = corners.lock().unwrap();
-            *corners_value = new_positions;
-        }
-
+        re_calculate_display(&mut corners);
         if let EventType::MouseMove { x, y } = event.event_type {
             let position = Position {
                 x: x as i32,
                 y: y as i32,
             };
-            handle_mouse_event(&position, &corners.lock().unwrap());
+            handle_mouse_event(&position, &corners);
         }
     };
 
@@ -53,5 +48,27 @@ fn handle_mouse_event(position: &Position, corners: &Corners) {
         _ => unsafe {
             IS_ACTIVE = true;
         },
+    }
+}
+
+const RECHECK_TIME: u64 = 60;
+static mut CHECK_TIME: Option<Instant> = None;
+fn re_calculate_display(corners: &mut Corners) {
+    let mut now = Instant::now();
+    let is_time_exceed = unsafe {
+        match CHECK_TIME {
+            None => {
+                CHECK_TIME = Some(Instant::now() + Duration::from_secs(RECHECK_TIME));
+            }
+            _ => {}
+        };
+        CHECK_TIME.unwrap().cmp(&&now).is_lt()
+    };
+
+    if is_time_exceed {
+        corners.re_assign(calculate_display::calculated_display_corners());
+        unsafe {
+            CHECK_TIME = Some(now + Duration::from_secs(RECHECK_TIME));
+        }
     }
 }

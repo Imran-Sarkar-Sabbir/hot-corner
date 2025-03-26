@@ -8,7 +8,7 @@ pub struct WindowsCornerAction;
 
 #[cfg(target_os = "windows")]
 impl CornerAction for WindowsCornerAction {
-    fn go_left(&self) {
+    fn go_left(&mut self) {
         simulate(&EventType::KeyPress(Key::ControlLeft)).unwrap();
         simulate(&EventType::KeyPress(Key::MetaLeft)).unwrap();
         simulate(&EventType::KeyPress(Key::LeftArrow)).unwrap();
@@ -18,7 +18,7 @@ impl CornerAction for WindowsCornerAction {
         simulate(&EventType::KeyRelease(Key::ControlLeft)).unwrap();
     }
 
-    fn go_right(&self) {
+    fn go_right(&mut self) {
         simulate(&EventType::KeyPress(Key::ControlLeft)).unwrap();
         simulate(&EventType::KeyPress(Key::MetaLeft)).unwrap();
         simulate(&EventType::KeyPress(Key::RightArrow)).unwrap();
@@ -28,7 +28,7 @@ impl CornerAction for WindowsCornerAction {
         simulate(&EventType::KeyRelease(Key::ControlLeft)).unwrap();
     }
 
-    fn open_window_tray(&self) {
+    fn open_window_tray(&mut self) {
         simulate(&EventType::KeyPress(Key::MetaLeft)).unwrap();
         simulate(&EventType::KeyPress(Key::Tab)).unwrap();
 

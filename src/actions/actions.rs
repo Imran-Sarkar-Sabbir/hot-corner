@@ -1,5 +1,5 @@
 pub trait CornerAction {
-    fn go_left(&self);
-    fn go_right(&self);
-    fn open_window_tray(&self);
+    fn go_left(&mut self);
+    fn go_right(&mut self);
+    fn open_window_tray(&mut self);
 }

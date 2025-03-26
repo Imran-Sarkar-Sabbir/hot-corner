@@ -1,8 +1,18 @@
 mod actions;
+
+#[cfg(target_os = "linux")]
 mod linux_actions;
+
+#[cfg(target_os = "macos")]
 mod mac_actions;
+
+#[cfg(target_os = "windows")]
 mod windows_actions;
 
+use std::cell::Cell;
+use std::task::ready;
+#[cfg(target_os = "macos")]
+use enigo::{Enigo, Settings};
 use actions::CornerAction;
 
 #[cfg(target_os = "macos")]
@@ -14,13 +24,15 @@ use windows_actions::WindowsCornerAction;
 #[cfg(target_os = "linux")]
 use linux_actions::LinuxCornerAction;
 
-static mut ACTIONS: Option<Box<dyn CornerAction>> = None;
-pub fn os_specific_corner_action() -> &'static Box<dyn CornerAction> {
+static mut ACTIONS: Option<Cell<Box<dyn CornerAction>>> = None;
+pub fn os_specific_corner_action() -> &'static mut Cell<Box<dyn CornerAction>> {
     unsafe {
-        ACTIONS.get_or_insert_with(|| {
+         ACTIONS.get_or_insert_with(|| {
             #[cfg(target_os = "macos")]
             {
-                Box::new(MacCornerAction)
+                Cell::new(Box::new(MacCornerAction {
+                    enigo: Enigo::new(&Settings::default()).unwrap()
+                }))
             }
 
             #[cfg(target_os = "windows")]
@@ -37,21 +49,21 @@ pub fn os_specific_corner_action() -> &'static Box<dyn CornerAction> {
 }
 
 pub fn handle_top_left_action() {
-    let actions = os_specific_corner_action();
+    let actions = os_specific_corner_action().get_mut();
     actions.go_left();
 }
 
 pub fn handle_top_right_action() {
-    let actions = os_specific_corner_action();
+    let actions = os_specific_corner_action().get_mut();
     actions.go_right();
 }
 
 pub fn handle_bottom_left_action() {
-    let actions = os_specific_corner_action();
+    let actions = os_specific_corner_action().get_mut();
     actions.open_window_tray();
 }
 
 pub fn handle_bottom_right_action() {
-    let actions = os_specific_corner_action();
+    let actions = os_specific_corner_action().get_mut();
     actions.open_window_tray();
 }

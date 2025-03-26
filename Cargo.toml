@@ -6,3 +6,4 @@ edition = "2021"
 [dependencies]
 rdev = "0.5.3"
 display-info = "0.5.1"
+enigo = "0.3.0"
