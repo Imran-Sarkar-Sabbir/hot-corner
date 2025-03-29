@@ -22,9 +22,7 @@ pub fn start_tracking() {
         }
     };
 
-    if let Err(error) = listen(callback) {
-        println!("Error: {:?}", error)
-    }
+    listen(callback).expect("Error listening on mouse tracking listener")
 }
 
 static mut IS_ACTIVE: bool = false;

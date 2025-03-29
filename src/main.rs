@@ -6,5 +6,3 @@ mod utils;
 fn main() {
     mouse_tracking::start_tracking();
 }
-
-

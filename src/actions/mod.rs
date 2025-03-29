@@ -9,11 +9,10 @@ mod mac_actions;
 #[cfg(target_os = "windows")]
 mod windows_actions;
 
-use std::cell::Cell;
-use std::task::ready;
+use actions::CornerAction;
 #[cfg(target_os = "macos")]
 use enigo::{Enigo, Settings};
-use actions::CornerAction;
+use std::cell::Cell;
 
 #[cfg(target_os = "macos")]
 use mac_actions::MacCornerAction;
@@ -27,11 +26,11 @@ use linux_actions::LinuxCornerAction;
 static mut ACTIONS: Option<Cell<Box<dyn CornerAction>>> = None;
 pub fn os_specific_corner_action() -> &'static mut Cell<Box<dyn CornerAction>> {
     unsafe {
-         ACTIONS.get_or_insert_with(|| {
+        ACTIONS.get_or_insert_with(|| {
             #[cfg(target_os = "macos")]
             {
                 Cell::new(Box::new(MacCornerAction {
-                    enigo: Enigo::new(&Settings::default()).unwrap()
+                    enigo: Enigo::new(&Settings::default()).unwrap(),
                 }))
             }
 
