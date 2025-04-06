@@ -36,12 +36,12 @@ pub fn os_specific_corner_action() -> &'static mut Cell<Box<dyn CornerAction>> {
 
             #[cfg(target_os = "windows")]
             {
-                Box::new(WindowsCornerAction)
+                Cell::new(Box::new(WindowsCornerAction))
             }
 
             #[cfg(target_os = "linux")]
             {
-                Box::new(LinuxCornerAction)
+                Cell::new(Box::new(LinuxCornerAction))
             }
         })
     }
