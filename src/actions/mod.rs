@@ -36,7 +36,9 @@ pub fn os_specific_corner_action() -> &'static mut Cell<Box<dyn CornerAction>> {
 
             #[cfg(target_os = "windows")]
             {
-                Cell::new(Box::new(WindowsCornerAction))
+                Cell::new(Box::new(WindowsCornerAction {
+                    enigo: Enigo::new(&Settings::default()).unwrap(),
+                }))
             }
 
             #[cfg(target_os = "linux")]
