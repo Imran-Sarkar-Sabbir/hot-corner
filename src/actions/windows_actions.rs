@@ -1,6 +1,9 @@
 #[cfg(target_os = "windows")]
 use super::actions::CornerAction;
 
+use enigo::Direction::{Click, Press, Release};
+use enigo::{Enigo, Keyboard};
+
 #[cfg(target_os = "windows")]
 pub struct WindowsCornerAction {
     pub enigo: Enigo,

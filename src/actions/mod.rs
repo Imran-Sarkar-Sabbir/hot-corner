@@ -10,7 +10,7 @@ mod mac_actions;
 mod windows_actions;
 
 use actions::CornerAction;
-#[cfg(target_os = "macos")]
+
 use enigo::{Enigo, Settings};
 use std::cell::Cell;
 
