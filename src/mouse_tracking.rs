@@ -49,7 +49,7 @@ fn handle_mouse_event(position: &Position, corners: &Corners) {
     }
 }
 
-const RECHECK_TIME: u64 = 60;
+const RECHECK_TIME: u64 = 30;
 static mut CHECK_TIME: Option<Instant> = None;
 fn re_calculate_display(corners: &mut Corners) {
     let mut now = Instant::now();

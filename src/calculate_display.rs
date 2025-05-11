@@ -30,19 +30,19 @@ pub fn calculated_display_corners() -> Corners {
             y: display.y,
         };
         top_right = Position {
-            x: display.x + display.width as i32 - 1,
+            x: display.x + (display.width as i32 * display.scale_factor as i32) - 1 ,
             y: display.y,
         };
         bottom_left = Position {
             x: display.x,
-            y: match display.y + display.height as i32 - 1 {
+            y: match display.y + (display.height as i32 * display.scale_factor as i32) - 1 {
                 value if value < 0 => 0,
                 value => value,
             },
         };
         bottom_right = Position {
-            x: display.x + display.width as i32 - 1,
-            y: match display.y + display.height as i32 - 1 {
+            x: display.x + (display.width as i32 * display.scale_factor as i32) - 1,
+            y: match display.y + (display.height as i32 * display.scale_factor as i32) - 1 {
                 value if value < 0 => 0,
                 value => value,
             },
