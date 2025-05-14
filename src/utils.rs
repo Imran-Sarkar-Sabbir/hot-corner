@@ -22,18 +22,30 @@ pub struct Corners {
     pub bottom_right: Position,
 }
 
+#[cfg(not(target_os = "windows"))]
+const CORRECTION_PIXES:i32 = 0;
+#[cfg(target_os = "windows")]
+const CORRECTION_PIXES:i32 = 2;
+
 impl Corners {
+
+    fn check_position_match(x: i32, y: i32) -> bool {
+        #[cfg(not(target_os = "windows"))]
+        return x == y;
+        #[cfg(target_os = "windows")]
+        return (x-y).abs() <= CORRECTION_PIXES;
+    }
+
     pub fn check_match(&self, position: &Position) -> CornerResult {
-        if self.top_left.x == position.x && self.top_left.y == position.y {
+        if Corners::check_position_match(self.top_left.x, position.x) && Corners::check_position_match(self.top_left.y, position.y) {
             return CornerResult::TopLeft;
-        } else if self.top_right.x == position.x && self.top_right.y == position.y {
+        } else if Corners::check_position_match(self.top_right.x , position.x) && Corners::check_position_match(self.top_right.y, position.y ){
             return CornerResult::TopRight;
-        } else if self.bottom_left.x == position.x && self.bottom_left.y == position.y {
+        } else if Corners::check_position_match(self.bottom_left.x, position.x) && Corners::check_position_match(self.bottom_left.y, position.y ){
             return CornerResult::BottomLeft;
-        } else if self.bottom_right.x == position.x && self.bottom_right.y == position.y {
+        } else if Corners::check_position_match(self.bottom_right.x , position.x) && Corners::check_position_match(self.bottom_right.y, position.y) {
             return CornerResult::BottomRight;
         }
-
         CornerResult::None
     }
 

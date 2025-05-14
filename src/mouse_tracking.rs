@@ -28,7 +28,6 @@ pub fn start_tracking() {
 static mut IS_ACTIVE: bool = false;
 fn handle_mouse_event(position: &Position, corners: &Corners) {
     let result = corners.check_match(position);
-
     if !unsafe { IS_ACTIVE } {
         match result {
             CornerResult::TopLeft => handle_top_left_action(),
